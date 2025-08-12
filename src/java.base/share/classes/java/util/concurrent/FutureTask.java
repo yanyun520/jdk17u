@@ -59,6 +59,16 @@ import java.util.concurrent.locks.LockSupport;
  * {@code protected} functionality that may be useful when creating
  * customized task classes.
  *
+                       +-----------------+      +-----------------+      +-----------------+
+                       |   WaitNode (C)  |      |   WaitNode (B)  |      |   WaitNode (A)  |
+                       |-----------------|      |-----------------|      |-----------------|
+ +--------------+      |   thread: C     |----->|   thread: B     |----->|   thread: A     |
+ | FutureTask   |----->|   next: (B)     |      |   next: (A)     |      |   next: null    |
+ |--------------|      +-----------------+      +-----------------+      +-----------------+
+ | state: NEW   |
+ | waiters: (C) |
+ +--------------+
+ *
  * @since 1.5
  * @author Doug Lea
  * @param <V> The result type returned by this FutureTask's {@code get} methods
